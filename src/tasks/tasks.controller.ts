@@ -49,7 +49,9 @@ export class TasksController {
   updateTaskStatus(
     @Param('id') id: string,
     @Body() updateTaskStatus: UpdateTaskStatusDto,
-  ): void {
-    return this.tasksService.updateTaskStatus(id, updateTaskStatus);
+  ): Task {
+    const { status } = updateTaskStatus;
+
+    return this.tasksService.updateTaskStatus(id, status);
   }
 }
