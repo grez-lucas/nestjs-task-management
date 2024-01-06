@@ -1,14 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
-import { TasksRepository } from './tasks.repository';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from './data.entity';
+import { TasksRepository } from './tasks.repository';
 @Injectable()
 export class TasksService {
-  constructor(
-    @InjectRepository(Task)
-    private tasksRepository: TasksRepository,
-  ) {}
+  constructor(private readonly tasksRepository: TasksRepository) {}
 
   // getAllTasks(): Task[] {
   //   return this.tasks;
@@ -33,6 +29,11 @@ export class TasksService {
     return found;
   }
 
+  async deleteTaskById(id: string): Promise<void> {
+    const task = await this.getTaskById(id);
+
+    await this.tasksRepository.delete(task.id);
+  }
   // deleteTaskById(id: string): void {
   //   const found = this.getTask(id);
 
