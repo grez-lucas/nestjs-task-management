@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TasksModule } from './tasks/tasks.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Task } from './tasks/data.entity';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       database: 'task-management',
       autoLoadEntities: true,
       synchronize: true, // Always keeps database Scheme in sync( in case we don't want to manually run migrations)
+      entities: [Task],
     }),
   ],
   controllers: [],
