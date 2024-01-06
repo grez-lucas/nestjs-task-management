@@ -3,7 +3,6 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { TasksRepository } from './tasks.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from './data.entity';
-import { TaskStatus } from './task-status.enum';
 @Injectable()
 export class TasksService {
   constructor(
@@ -15,31 +14,9 @@ export class TasksService {
   //   return this.tasks;
   // }
 
-  async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
-    const { title, description } = createTaskDto;
-
-    // Creating is not asynchronous, so we don't need to await
-    // We do need to write it to the DB, and that is asynchronous
-    const task = this.tasksRepository.create({
-      title: title,
-      description: description,
-      status: TaskStatus.OPEN,
-    });
-
-    await this.tasksRepository.save(task);
-
-    return task;
+  createTask(createTaskDto: CreateTaskDto): Promise<Task> {
+    return this.tasksRepository.createTask(createTaskDto);
   }
-
-  // createTask(createTaskDto: CreateTaskDto): Task {
-  //   const { title, description } = createTaskDto;
-
-  //   const task: Task = {
-  //     id: uuid(),
-  //     title: title,
-  //     description: description,
-  //     status: TaskStatus.OPEN,
-  //   };
 
   //   this.tasks.push(task);
   //   return task;
